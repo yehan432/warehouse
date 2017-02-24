@@ -12,15 +12,14 @@
 	</div>
 	<!-- #sidebar-shortcuts -->
 	<ul class="nav nav-list">
-		<li class="active">
-			<a href="<%=basePath%>/shop"> 
+		<li id="shop">
+			<a href="<%=basePath%>/shopList"> 
 				<i class="menu-icon fa fa-home"></i> 
 				<span class="menu-text">店铺管理</span>
 			</a> 
-			<b class="arrow"></b>
 		</li>
-		<li>
-			<a href="<%=basePath%>/sale"> 
+		<li id="sale">
+			<a href="<%=basePath%>/saleList"> 
 				<i class="menu-icon fa fa-bar-chart-o"></i> 
 				<span class="menu-text">销售统计 </span>
 			</a> 

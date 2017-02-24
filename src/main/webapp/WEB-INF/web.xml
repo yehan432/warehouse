@@ -66,7 +66,17 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<!-- Spring MVC Dispatcher Servlet Config -->
-
+	
+  	<!-- Context Listener -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/applicationContext*</param-value>
+	</context-param>
+	<!-- Context Listener -->
+	
 	<welcome-file-list>
 		<welcome-file>/WEB-INF/view/index.jsp</welcome-file>
 	</welcome-file-list>
