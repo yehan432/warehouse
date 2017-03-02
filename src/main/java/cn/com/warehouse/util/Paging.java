@@ -60,7 +60,7 @@ public class Paging<T> {
 	}
 
 	public int getStartRow() {
-		return numPerPage * (this.currentPage - 1) + 1;
+		return numPerPage * (this.currentPage - 1)/* + 1*/;
 	}
 
 	public void setStartRow(int startRow) {

@@ -10,16 +10,16 @@
 		<ul class="pagination middle">
 			<c:choose>
 				<c:when test="${page.currentPage == 1}">
-					<li class="disabled"><span> <i class="icon-step-backward middle"></i>
+					<li class="disabled"><span> <i class="ace-icon fa fa-step-backward middle"></i>
 					</span></li>
-					<li class="disabled"><span> <i class="icon-caret-left bigger-140 middle"></i>
+					<li class="disabled"><span> <i class="ace-icon fa fa-caret-left bigger-140 middle"></i>
 					</span></li>
 				</c:when>
 				<c:otherwise>
-					<li><a href="#" onclick="paginate(1);"> <i class="icon-step-backward middle"></i>
+					<li><a href="#" onclick="paginate(1);"> <i class="ace-icon fa fa-step-backward middle"></i>
 					</a></li>
 					<li><a href="#" onclick="paginate('${page.currentPage - 1}');"> <i
-							class="icon-caret-left bigger-140 middle"></i>
+							class="ace-icon fa fa-caret-left bigger-140 middle"></i>
 					</a></li>
 				</c:otherwise>
 			</c:choose>
@@ -27,23 +27,23 @@
 			</span></li>
 			<c:choose>
 				<c:when test="${page.currentPage == page.totalPage}">
-					<li class="disabled"><span> <i class="icon-caret-right bigger-140 middle"></i>
+					<li class="disabled"><span> <i class="ace-icon fa fa-caret-right bigger-140 middle"></i>
 					</span></li>
-					<li class="disabled"><span> <i class="icon-step-forward middle"></i>
+					<li class="disabled"><span> <i class="ace-icon fa fa-step-forward middle"></i>
 					</span></li>
 				</c:when>
 				<c:otherwise>
 					<li><a href="#" onclick="paginate(${page.currentPage + 1});"> <i
-							class="icon-caret-right bigger-140 middle"></i>
+							class="ace-icon fa fa-caret-right bigger-140 middle"></i>
 					</a></li>
-					<li><a href="#" onclick="paginate(${page.totalPage});"> <i class="icon-step-forward middle"></i>
+					<li><a href="#" onclick="paginate(${page.totalPage});"> <i class="ace-icon fa fa-step-forward middle"></i>
 					</a></li>
 				</c:otherwise>
 			</c:choose>
 		</ul>
 	</div>
 </div>
-<script src="style/assets/js/bootbox.min.js"></script>
+<script src="style/assets/js/bootbox.js"></script>
 <script type="text/javascript">
 	// 跳转页码
 	function paginate(page) {

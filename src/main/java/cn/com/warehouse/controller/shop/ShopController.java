@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.com.warehouse.entity.shop.ShopEntity;
+import cn.com.warehouse.entity.trade.TradeEntity;
+import cn.com.warehouse.service.goods.GoodsService;
 import cn.com.warehouse.service.shop.ShopService;
+import cn.com.warehouse.service.trade.TradeService;
 import cn.com.warehouse.util.Paging;
 
 /**
- * @author 用户登录控制层
+ * @author 店铺控制层
  *
  */
 @Controller
@@ -22,6 +25,10 @@ public class ShopController {
 
 	@Resource
 	private ShopService shopService;
+	@Resource
+	private GoodsService goodsService;
+	@Resource
+	private TradeService tradeService;
 
 	/**
 	 * 跳转到店铺列表
@@ -30,8 +37,7 @@ public class ShopController {
 	 */
 	@RequestMapping(value = "/shopList", method = RequestMethod.GET)
 	public String shopList(Model model, Paging<ShopEntity> page) {
-		shopService.getShopList(page);
-		model.addAttribute("page", page);
+		model.addAttribute("page", shopService.getShopList(page));
 		return "shop/shop_list";
 	}
 
@@ -51,7 +57,7 @@ public class ShopController {
 	 * @return String
 	 */
 	@RequestMapping(value = "/updateShop", method = RequestMethod.GET)
-	public String updatePage(Model model, @RequestParam int shopId) {
+	public String updatePage(Model model, @RequestParam long shopId) {
 		model.addAttribute("shop", shopService.getShopById(shopId));
 		return "shop/shop_update";
 	}
@@ -62,8 +68,10 @@ public class ShopController {
 	 * @return String
 	 */
 	@RequestMapping(value = "/shopDetail", method = RequestMethod.GET)
-	public String shopDetail(Model model, @RequestParam int shopId) {
+	public String shopDetail(Model model, @RequestParam long shopId, Paging<TradeEntity> page) {
+		model.addAttribute("goodsList", goodsService.getAllGoods());
 		model.addAttribute("shop", shopService.getShopById(shopId));
+		model.addAttribute("page", tradeService.getTradeByShopId(page, shopId));
 		return "shop/shop_detail";
 	}
 

@@ -54,7 +54,7 @@
 							<i class="ace-icon fa fa-home home-icon"></i>
 							<a href="<%=basePath%>/">主页</a>
 						</li>
-						<li class="active">店铺管理</li>
+						<li class="active">货物管理</li>
 					</ul>
 					<!-- .breadcrumb -->
 				</div>
@@ -62,47 +62,47 @@
 				<div class="page-content">
 					<div class="page-header">
 						<h1>
-							店铺管理
+							货物管理
 							<small> 
 							<i class="ace-icon fa fa-angle-double-right"></i>
 									查看
 							</small>
 						</h1>
 					</div>
-					<!-- 店铺管理列表 -->
-					<form id="queryForm" class="form-inline checkForm" action="<%=path%>/shopList" method="get">
+					<!-- 货物管理列表 -->
+					<form id="queryForm" class="form-inline checkForm" action="<%=path%>/goods" method="get">
 						<input type="hidden" id="currentPage" name="currentPage" value="${page.currentPage}">
 					</form>
-					<a href="<%=path%>/createShop" class="btn btn-sm btn-success" style="margin-bottom: 15px; float: right;">添加店铺</a>
+						<a href="<%=path%>/createGoods" class="btn btn-sm btn-success" style="margin-bottom: 15px; float: right;">添加货物</a>
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="table-responsive">
 								<table id="sample-table-2" class="table table-striped table-bordered table-hover">
 									<thead>
 										<tr>
-											<th>店铺名称</th>
-											<th>店铺加盟费</th>
+											<th>货物名称</th>
+											<th>货物品牌</th>
+											<th>产品规格</th>
+											<th>备注</th>
 											<th></th>
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${page.list}" var="shop">
+										<c:forEach items="${page.list}" var="goods">
 											<tr>
-												<td>
-												<a class="blue" href="shopDetail?shopId=${shop.shopId}">${shop.shopName}</a>
-												</td>
-												<td style="color: orange;">
-													<i class="fa fa-jpy"></i> ${shop.shopFee}
-												</td>
+												<td>${goods.goodsName}</td>
+												<td>${goods.brand}</td>
+												<td>${goods.specification}</td>
+												<td>${goods.remark}</td>
 												<td>
 													<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-														<a class="blue" href="shopDetail?shopId=${shop.shopId}" title="详情">
+														<a class="blue" href="goodsDetail?goodsId=${goods.goodsId}" title="查看">
 															<i class="ace-icon fa fa-search-plus bigger-130"></i>
 														</a>
-														<a class="green" href="updateShop?shopId=${shop.shopId}" title="编辑">
+														<a class="green" href="updateGoods?goodsId=${goods.goodsId}" title="编辑">
 															<i class="ace-icon fa fa-pencil bigger-130"></i>
 														</a>
-														<a class="red" href="#" title="删除" onclick="deleteShop('${shop.shopId}');">
+														<a class="red" href="#" title="删除" onclick="deleteGoods('${goods.goodsId}');">
 															<i class="ace-icon fa fa-trash-o bigger-130"></i>
 														</a>
 													</div>
@@ -117,19 +117,19 @@
 							</div>
 						</div>
 					</div>
-					<!-- 店铺管理列表 -->
+					<!-- 货物管理列表 -->
 				</div>
 			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
-		$("#shop").addClass("active");
+		$("#goods").addClass("active");
 		// 删除
-		function deleteShop(id) {
+		function deleteGoods(id) {
 			bootbox.setDefaults("locale","zh_CN");  
 			bootbox.confirm("确认删除？", function(re) {
 				if (re) {
-					location.href = "deleteShop?shopId=" + id;
+					location.href = "deleteGoods?goodsId=" + id;
 				}
 			});
 		}

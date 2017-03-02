@@ -1,5 +1,6 @@
 package cn.com.warehouse.dao.shop;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -29,9 +30,19 @@ public class ShopDao {
 	public List<ShopEntity> getShopList(Paging<ShopEntity> page) {
 		String sql = "SELECT * FROM shop LIMIT ?,?";
 		List<ShopEntity> list = (List<ShopEntity>) jdbcTemplate.query(sql,
-				new Object[] { page.getStartRow() - 1, page.getNumPerPage() }, new BeanPropertyRowMapper<ShopEntity>(
+				new Object[] { page.getStartRow(), page.getNumPerPage() }, new BeanPropertyRowMapper<ShopEntity>(
 						ShopEntity.class));
 		return list;
+	}
+
+	/**
+	 * 查询店铺数量
+	 * 
+	 * @return Page
+	 */
+	public Integer getShopListCount() {
+		String sql = "select count(*) from shop";
+		return jdbcTemplate.queryForObject(sql, Integer.class);
 	}
 
 	/**
@@ -81,6 +92,15 @@ public class ShopDao {
 	public void deleteShop(long shopId) {
 		String sql = "delete from shop where shop_id=?";
 		jdbcTemplate.update(sql, new Object[] { shopId });
+	}
+
+	/**
+	 * 店铺收付款
+	 * 
+	 */
+	public void updateFeeById(long shopId, BigDecimal fee) {
+		String sql = "update shop set shop_fee=shop_fee+? where shop_id=?";
+		jdbcTemplate.update(sql, new Object[] { fee, shopId });
 	}
 
 }

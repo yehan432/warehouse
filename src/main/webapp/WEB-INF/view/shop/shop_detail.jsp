@@ -1,35 +1,36 @@
-<%@ page language="java" import="java.util.*,apm.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
-	String url = "ws://" + request.getServerName() + ":" + request.getServerPort() + path + "/serviceSocket";  
-	String interval = PropertiesUtil.getValue("ws", "service.interval"); 
 %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>监控系统</title>
+<title>销售统计</title>
 <!-- basic styles -->
-<link rel="stylesheet" type="text/css" href="style/assets/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="style/assets/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="style/assets/css/bootstrap.min.css"  />
+<link rel="stylesheet" type="text/css" href="style/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
 <!-- ace styles -->
-<link rel="stylesheet" type="text/css" href="style/assets/css/ace.min.css" />
-<link rel="stylesheet" type="text/css" href="style/assets/css/ace-rtl.min.css" />
-<link rel="stylesheet" type="text/css" href="style/assets/css/ace-skins.min.css" />
+<link rel="stylesheet" href="style/assets/css/fonts.googleapis.com.css" />
+<link rel="stylesheet" type="text/css" href="style/assets/css/ace.min.css "  class="ace-main-stylesheet" id="main-ace-style"/>
+<link rel="stylesheet" type="text/css" href="style/assets/css/ace-rtl.min.css"  />
+<link rel="stylesheet" type="text/css" href="style/assets/css/ace-skins.min.css"  />
 <!-- ace settings handler -->
 <script src="js/jquery.min.js"></script>
 <script src="style/assets/js/bootstrap.min.js"></script>
+<script src="style/assets/js/jquery.validate.min.js"></script>
 <script src="style/assets/js/ace-elements.min.js"></script>
 <script src="style/assets/js/ace.min.js"></script>
 <script src="style/assets/js/ace-extra.min.js"></script>
-<script src="style/echarts/echarts.js"></script>
+<script src="style/assets/js/bootbox.js"></script>
 </head>
 
-<body>
+<body class="no-skin">
 	<%@ include file="../head.jsp"%>
 	
-	<div class="main-container" id="main-container">
+	<div class="main-container ace-save-state" id="main-container">
 		<script type="text/javascript">
 			try {
 				ace.settings.check('main-container', 'fixed')
@@ -37,7 +38,7 @@
 			}
 		</script>
 
-		<div class="main-container-inner">
+		<div>
 			<%@ include file="../menu.jsp"%>
 			<!-- 主页面 -->
 			<div class="main-content">
@@ -50,404 +51,262 @@
 					</script>
 
 					<ul class="breadcrumb">
-						<li><i class="icon-home home-icon"></i> <a href="<%=path%>/index">主页</a></li>
-						<li class="active">服务监控</li>
+						<li>
+							<i class="ace-icon fa fa-home home-icon"></i> 
+							<a href="<%=basePath%>/">主页</a>
+						</li>
+						<li class="active">店铺管理</li>
 					</ul>
 				</div>
 				<div class="page-content">
 					<div class="page-header">
 						<h1>
-							服务监控<small> <i class="icon-double-angle-right"></i> 详细</small>
+							店铺管理
+							<small> 
+							<i class="ace-icon fa fa-angle-double-right"></i>
+									详情
+							</small>
 						</h1>
 					</div>
-					<!-- 服务详细信息 -->
+					<!-- 店铺详细信息 -->
+					<a href="#receive-modal" class="btn btn-sm btn-success" data-toggle="modal" style="margin-left:10px;margin-bottom: 15px; float: right;">收    款</a>
+					<a href="#send-modal" class="btn btn-sm btn-success" data-toggle="modal" style="margin-bottom: 15px; float: right;">发    货</a>
 					<div class="row">
 						<div class="col-xs-12">
-							<!-- 即时监控 -->
-							<input type="hidden" id="serviceUrl" value="${serviceUrl}">
-							<div id="accordionCpu" class="accordion-style1 panel-group">
+							<!-- 店铺信息 -->
+							<div id="accordionShop" class="accordion-style1 panel-group">
 								<div class="panel panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title">
-											<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionCpu" href="#collapseCpu"> 
+											<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionShop" href="#collapseShop"> 
 											<i class="icon-angle-down bigger-110" data-icon-hide="icon-angle-down" data-icon-show="icon-angle-right"></i>
-												&nbsp;即时监控
+												&nbsp;店铺信息
 											</a>
 										</h4>
 									</div>
-									<div class="panel-collapse collapse in" id="collapseCpu">
-										<div class="col-xs-4">
-											<div class="profile-info-row">
-												<div class="profile-info-name"> 服务名称 </div>
-												<div class="profile-info-value">
-													<span class="editable">${serviceEntity.serviceName}</span>
-												</div>
-											</div>
-											<div class="profile-info-row">
-												<div class="profile-info-name"> 服务IP地址 </div>
-												<div class="profile-info-value">
-													<span class="editable">${serviceEntity.serviceAddress}</span>
-												</div>
-											</div>
-											<div class="profile-info-row">
-												<div class="profile-info-name"> 服务端口号 </div>
-												<div class="profile-info-value">
-													<span class="editable">${serviceEntity.servicePort}</span>
-												</div>
-											</div>
-											<div class="profile-info-row">
-												<div class="profile-info-name"> CPU使用率 </div>
-												<div class="profile-info-value">
-													<span class="editable" id="cpuPercentage">0.00%</span>
-												</div>
-											</div>
-											<div class="profile-info-row">
-												<div class="profile-info-name"> 已使用内存量 </div>
-												<div class="profile-info-value">
-													<span class="editable" id="memoryUsed">0.0MB</span>
-												</div>
-											</div>
-											<div class="profile-info-row">
-												<div class="profile-info-name"> 未使用内存量 </div>
-												<div class="profile-info-value">
-													<span class="editable" id="memoryUnUsed">0.0MB</span>
-												</div>
-											</div>
-											<div class="profile-info-row">
-												<div class="profile-info-name"> 可使用内存量 </div>
-												<div class="profile-info-value">
-													<span class="editable" id="memoryCommitted">0.0MB</span>
-												</div>
-											</div>
-										</div>
-										<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-										<div id="cpu" class="col-xs-4" style="height:260px;float:left;"></div>
-										<div id="mem" class="col-xs-4" style="height:260px;float:left;"></div>
-									</div>
-								</div>
-							</div><!-- 即时监控 -->
-							<!-- 系统信息 -->
-							<div id="accordionMem" class="accordion-style1 panel-group">
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<h4 class="panel-title">
-											<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionMem" href="#collapseMem"> 
-											<i class="icon-angle-down bigger-110" data-icon-hide="icon-angle-down" data-icon-show="icon-angle-right"></i>
-												&nbsp;系统信息
-											</a>
-										</h4>
-									</div>
-									<div class="panel-collapse collapse in" id="collapseMem">
+									<div class="panel-collapse collapse in" id="collapseShop">
 										<div class="profile-info-row">
-											<div class="profile-info-name"> 可用处理器数 </div>
+											<div class="profile-info-name"> 店铺名称</div>
 											<div class="profile-info-value">
-												<span class="editable">${serviceEntity.cpuAvailableCount}</span>
+												<span class="editable">${shop.shopName}</span>
 											</div>
 										</div>
 										<div class="profile-info-row">
-											<div class="profile-info-name"> 操作系统名称 </div>
+											<div class="profile-info-name"> 加盟费 </div>
 											<div class="profile-info-value">
-												<span class="editable">${serviceEntity.systemName}</span>
-											</div>
-										</div>
-										<div class="profile-info-row">
-											<div class="profile-info-name"> 操作系统架构 </div>
-											<div class="profile-info-value">
-												<span class="editable">${serviceEntity.systemArch}</span>
-											</div>
-										</div>
-										<div class="profile-info-row">
-											<div class="profile-info-name"> 操作系统版本 </div>
-											<div class="profile-info-value">
-												<span class="editable">${serviceEntity.systemVersion}</span>
+												<span class="editable" style="color: orange;"><i class="fa fa-jpy"></i> ${shop.shopFee}</span>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div><!-- 系统信息 -->
-							<!-- 线程信息 -->
-							<div id="accordionPro" class="accordion-style1 panel-group">
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<h4 class="panel-title">
-											<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionPro" href="#collapsePro">
-												<i class="icon-angle-down bigger-110" data-icon-hide="icon-angle-down" data-icon-show="icon-angle-right"></i>
-												&nbsp;线程信息
-											</a>
-										</h4>
-									</div>
-									<div class="panel-collapse collapse in" id="collapsePro">
-										<div class="profile-info-row">
-											<div class="profile-info-name"> 当前活动线程数 </div>
-											<div class="profile-info-value">
-												<span class="editable" id="threadCount">&nbsp;</span>
-											</div>
-										</div>
-										<div class="profile-info-row">
-											<div class="profile-info-name"> 当前守护线程数 </div>
-
-											<div class="profile-info-value">
-												<span class="editable" id="daemonThreadCount">&nbsp;</span>
-											</div>
-										</div>
-										<div class="profile-info-row">
-											<div class="profile-info-name"> 总计启动线程数 </div>
-											<div class="profile-info-value">
-												<span class="editable" id="peakThreadCount">&nbsp;</span>
-											</div>
-										</div>
-										<div class="profile-info-row">
-											<div class="profile-info-name"> 当前加载类数量 </div>
-											<div class="profile-info-value">
-												<span class="editable" id="loadedClassCount">&nbsp;</span>
-											</div>
-										</div>
-										<div class="profile-info-row">
-											<div class="profile-info-name"> 已卸载类数量</div>
-											<div class="profile-info-value">
-												<span class="editable" id="unloadedClassCount">&nbsp;</span>
-											</div>
-										</div>
-										<div class="profile-info-row">
-											<div class="profile-info-name"> 总加载类数量 </div>
-											<div class="profile-info-value">
-												<span class="editable" id="totalLoadedClassCount">&nbsp;</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div><!-- 线程信息 -->
-							<!-- 虚拟机信息 -->
-							<div id="accordionJvm" class="accordion-style1 panel-group">
-								<div class="panel panel-default">
-									<div class="panel-heading">
-										<h4 class="panel-title">
-											<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionJvm" href="#collapseJvm">
-												<i class="icon-angle-down bigger-110" data-icon-hide="icon-angle-down" data-icon-show="icon-angle-right"></i>
-												&nbsp;虚拟机信息
-											</a>
-										</h4>
-									</div>
-									<div class="panel-collapse collapse in" id="collapseJvm">
-										<div class="profile-info-row">
-											<div class="profile-info-name"> 供应商</div>
-											<div class="profile-info-value">
-												<span class="editable">${serviceEntity.jvmVendor}</span>
-											</div>
-										</div>
-										<div class="profile-info-row">
-											<div class="profile-info-name"> 名称 </div>
-											<div class="profile-info-value">
-												<span class="editable">${serviceEntity.jvmName}</span>
-											</div>
-										</div>
-										<div class="profile-info-row">
-											<div class="profile-info-name"> 版本 </div>
-											<div class="profile-info-value">
-												<span class="editable">${serviceEntity.jvmVersion}</span>
-											</div>
-										</div>
-										<div class="profile-info-row">
-											<div class="profile-info-name"> 启动时间 </div>
-											<div class="profile-info-value">
-												<span class="editable" id="startTime">&nbsp;</span>
-											</div>
-										</div>
-										<div class="profile-info-row">
-											<div class="profile-info-name"> 连续工作时间 </div>
-											<div class="profile-info-value">
-												<span class="editable" id="spanTime">&nbsp;</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div><!-- 虚拟机信息 -->
+							</div><!-- 店铺信息 -->
+						</div>
+					</div><!-- 店铺详细信息 -->
+					<!-- 交易列表 -->
+					<form id="queryForm" class="form-inline checkForm" action="<%=path%>/shopDetail" method="get">
+						<input type="hidden" id="currentPage" name="currentPage" value="${page.currentPage}">
+						<input type="hidden" id="shopId" name="shopId" value="${shop.shopId}">
+					</form>
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="table-responsive">
+								<table id="sample-table-2" class="table table-striped table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>交易时间</th>
+											<th>交易价格</th>
+											<th>交易数量</th>
+											<th>交易类型</th>
+											<th>货物名称</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${page.list}" var="trade">
+											<tr>
+												<td>${trade.tradeTime}</td>
+												<td style="color: <c:if test="${trade.type == 1}">green</c:if><c:if test="${trade.type == 0}">red</c:if>;">
+													<i class="fa fa-jpy"></i> ${trade.price}
+												</td>
+												<td>${trade.amount}</td>
+												<td><c:if test="${trade.type == 0}">收款</c:if><c:if test="${trade.type == 1}">发货</c:if></td>
+												<td>${trade.goodsName}</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+								<c:if test="${page.totalPage > 1}">
+									<%@ include file="../page.jsp"%>
+								</c:if>
+							</div>
 						</div>
 					</div>
+					<!-- 交易列表 -->
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse"> <i
-		class="icon-double-angle-up icon-only bigger-110"></i>
-	</a>
+	<div id="send-modal" class="modal fade" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3 class="smaller lighter blue no-margin">店铺发货</h3>
+				</div>
+				<form id="sendForm" role="form" action="<%=path%>/send" method="post">
+					<input type="hidden" id="target" name="target" value="${shop.shopId}">
+					<div class="modal-body">
+						<div class="form-group" style="width: 26%;">
+							<label for="goodsId">货物：</label>
+							<select class="form-control" id ="goodsId" name ="goodsId">
+								<c:forEach items="${goodsList}" var="list">
+									<option value="${list.goodsId}">${list.goodsName}</option>
+								</c:forEach>
+							</select> 
+	 					</div>
+						<div class="form-group" style="width: 26%;">
+							<label for="amount">发货数量：</label>
+							<input class="form-control" type="text" id="amount" name="amount" style="width:100%;" maxlength="10"/>
+	 					</div>
+	 					<div class="form-group" style="width: 26%;">
+							<label for="price">单价(元)：</label>
+							<input class="form-control" type="text" id="price" name="price" style="width:100%;" maxlength="10"/>
+	 					</div>
+					</div>
+		
+					<div class="modal-footer">
+						<button class="btn btn-sm btn-danger pull-right" data-dismiss="modal" style="margin-left:10px;">
+							<i class="ace-icon fa fa-times"></i>
+							关闭
+						</button>
+						<button id="sendBtn" class="btn btn-sm btn-success pull-right">
+							<i class="ace-icon fa fa-check"></i>
+							提交
+						</button>
+					</div>
+				</form>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div>
+	
+	<div id="receive-modal" class="modal fade" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h3 class="smaller lighter blue no-margin">店铺收款</h3>
+				</div>
+				<form id="receiveForm" role="form" action="<%=path%>/receive" method="post">
+					<input type="hidden" id="target" name="target" value="${shop.shopId}">
+					<div class="modal-body">
+	 					<div class="form-group" style="width: 26%;">
+							<label for="price">收款金额(元)：</label>
+							<input class="form-control" type="text" id="price" name="price" style="width:100%;" maxlength="10"/>
+	 					</div>
+					</div>
+		
+					<div class="modal-footer">
+						<button class="btn btn-sm btn-danger pull-right" data-dismiss="modal" style="margin-left:10px;">
+							<i class="ace-icon fa fa-times"></i>
+							关闭
+						</button>
+						<button id="receiveBtn" class="btn btn-sm btn-success pull-right">
+							<i class="ace-icon fa fa-check"></i>
+							提交
+						</button>
+					</div>
+				</form>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div>
+
 	<script type="text/javascript">
-		$("#menu2").addClass("active");
-		$("#menu2 a img").attr('src',"style/assets/images/t2.png");
-		var websocket = null;
-		var url = "<%=url%>";
-		//判断当前浏览器是否支持WebSocket
-		if ('WebSocket' in window) {
-			websocket = new WebSocket(url);
-		} else {
-			alert('监控系统不支持此版本浏览器！');
-		}
-
-		//连接发生错误的回调方法
-		websocket.onerror = function() {
-		}
-
-		//连接成功建立的回调方法
-		websocket.onopen = function(event) {
-			send();
-		}
-
-		//接收到消息的回调方法
-		websocket.onmessage = function(event) {
-			var json = JSON.parse(event.data);
-			cpuPer = (json[0].cpuPercentage * 100).toFixed(2);
-			memUsed = (json[0].memoryUsed / 1024 / 1024).toFixed(1);
-			memCommitted = (json[0].memoryCommitted / 1024 / 1024).toFixed(1);
-			$("#cpuPercentage").text(cpuPer + "%");
-			$("#memoryUsed").text(memUsed + "MB");
-			$("#memoryUnUsed").text((memCommitted - memUsed).toFixed(1) + "MB");
-			$("#memoryCommitted").text(memCommitted + "MB");
-			$("#threadCount").text(json[0].threadCount);
-			$("#daemonThreadCount").text(json[0].daemonThreadCount);
-			$("#peakThreadCount").text(json[0].peakThreadCount);
-			$("#loadedClassCount").text(json[0].loadedClassCount);
-			$("#totalLoadedClassCount").text(json[0].totalLoadedClassCount);
-			$("#unloadedClassCount").text(json[0].unloadedClassCount);
-			$("#startTime").text(json[0].startTime);
-			$("#spanTime").text(json[0].spanTime);
-			cpuGauge();
-			memGauge();
-		}
-
-		//连接关闭的回调方法
-		websocket.onclose = function() {
-		}
-
-		//监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
-		window.onbeforeunload = function() {
-			websocket.close();
-		}
-
-		//关闭连接
-		function closeWebSocket() {
-			websocket.close();
-		}
-
-		//发送消息
-		function send() {
-			websocket.send($("#serviceUrl").val());
-		}
-	</script>
-	<script type="text/javascript">
-		var cpuPer = 0;
-		var memUsed = 0;
-		var memCommitted = 0;
-		// CPU仪表盘
-		var cpuChart = echarts.init(document.getElementById('cpu'));
-		cpuOption = {
-			title: {
-		        text: 'CPU监控'
-		    },
-			tooltip : {
-				formatter : "{a} <br/>{b} : {c}%"
+		$("#shop").addClass("active");
+		
+		//点击提交
+		$("#sendBtn").click(function() {
+			$("#sendForm").submit();
+		});
+		
+		$("#receiveBtn").click(function() {
+			$("#receiveForm").submit();
+		});
+		
+		// 校验表单
+		$("#sendForm").validate({
+			errorElement : 'div',
+			errorClass : 'help-block',
+			focusInvalid : false,
+			rules : {
+				amount : {
+					required : true,
+					digits : true
+				},
+				price : {
+					required : true,
+					number : true
+				}
 			},
-			series : [ {
-				name : 'CPU使用率',
-				type : 'gauge',
-				radius : 120,
-				axisLine : {
-					lineStyle : {
-						width : 3,
-						shadowColor : '#fff',
-						shadowBlur : 10
-					}
+			messages : {
+				amount : {
+					required : "请输入发货数量",
+					digits : "请输入整数"
 				},
-				splitLine : {
-					length : 15,
-					lineStyle: {       
-	                    width:3,
-	                    color: 'auto',
-	                    shadowColor : '#fff',
-	                    shadowBlur: 10
-	                }
-				},
-				detail : {
-					formatter : '{value}%',
-					textStyle : {
-						fontSize : 15
-					}
-				},
-				data : [ {
-					value : 0,
-					name : 'CPU'
-				} ]
-			} ]
-		};
-		
-		cpuChart.setOption(cpuOption,true);
-		
-		// 刷新图表
-		function cpuGauge(){
-			cpuOption.series[0].data[0].value = cpuPer;
-			// 使用刚指定的配置项和数据显示图表。
-			cpuChart.setOption(cpuOption,true);
-		}
-		
-	</script>
-	<script type="text/javascript">
-		// 内存仪表盘
-		var memChart = echarts.init(document.getElementById('mem'));
-		memOption = {
-			title: {
-		        text: '内存监控'
-		    },
-			tooltip : {
-				formatter : "{a} <br/>{b} : {c}MB"
+				price : {
+					required : "请输入单价",
+					number : "请输入数字"
+				}
 			},
-			series : [ {
-				name : '当前使用内存',
-				type : 'gauge',
-				radius : 120,
-				max : 512,
-				axisLine : {
-					lineStyle : {
-						width : 3,
-						shadowColor : '#fff',
-						shadowBlur : 10
-					}
-				},
-				splitLine : {
-					length : 15,
-					lineStyle: {       
-	                    width:3,
-	                    color: 'auto',
-	                    shadowColor : '#fff',
-	                    shadowBlur: 10
-	                }
-				},
-				axisLabel : {
-					formatter : function(value) {
-						return parseInt(value);
-					}
-				},
-				detail : {
-					formatter : '{value}MB',
-					textStyle : {
-						fontSize : 15
-					}
-				},
-				data : [ {
-					value : 0,
-					name : '内存'
-				} ]
-			} ]
-		};
-		
-		memChart.setOption(memOption);
 
-		// 刷新图表
-		function memGauge(){
-			memOption.series[0].data[0].value = memUsed;
-			memOption.series[0].max = memCommitted;
-			// 使用刚指定的配置项和数据显示图表
-			memChart.setOption(memOption,true);
-		}
+			invalidHandler : function(event, validator) { //display error alert on form submit   
+				$('.alert-danger', $('.login-form')).show();
+			},
+
+			highlight : function(e) {
+				$(e).closest('.form-group').removeClass('has-info')
+						.addClass('has-error');
+			},
+
+			success : function(e) {
+				$(e).closest('.form-group').removeClass('has-error')
+						.addClass('has-info');
+				$(e).remove();
+			}
+		});
+		
+		// 校验表单
+		$("#receiveForm").validate({
+			errorElement : 'div',
+			errorClass : 'help-block',
+			focusInvalid : false,
+			rules : {
+				price : {
+					required : true,
+					number : true
+				}
+			},
+			messages : {
+				price : {
+					required : "请输入金额",
+					number : "请输入数字"
+				}
+			},
+
+			invalidHandler : function(event, validator) { //display error alert on form submit   
+				$('.alert-danger', $('.login-form')).show();
+			},
+
+			highlight : function(e) {
+				$(e).closest('.form-group').removeClass('has-info')
+						.addClass('has-error');
+			},
+
+			success : function(e) {
+				$(e).closest('.form-group').removeClass('has-error')
+						.addClass('has-info');
+				$(e).remove();
+			}
+		});
 	</script>
 </body>
 </html>

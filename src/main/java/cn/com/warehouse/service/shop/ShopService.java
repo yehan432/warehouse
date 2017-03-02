@@ -1,5 +1,7 @@
 package cn.com.warehouse.service.shop;
 
+import java.math.BigDecimal;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -25,7 +27,19 @@ public class ShopService {
 	 */
 	public Paging<ShopEntity> getShopList(Paging<ShopEntity> page) {
 		page.setList(shopDao.getShopList(page));
+		int count = shopDao.getShopListCount();
+		page.setTotalRow(count);
+		page.setTotalPage((count + page.getNumPerPage() - 1) / page.getNumPerPage());
 		return page;
+	}
+	
+	/**
+	 * 查询店铺数量
+	 * 
+	 * @return Page
+	 */
+	public Integer getShopListCount() {
+		return shopDao.getShopListCount();
 	}
 
 	/**
@@ -78,5 +92,13 @@ public class ShopService {
 		} else {
 			return true;
 		}
+	}
+	
+	/**
+	 * 店铺收付款
+	 * 
+	 */
+	public void updateFeeById(long shopId, BigDecimal fee) {
+		shopDao.updateFeeById(shopId, fee);
 	}
 }
