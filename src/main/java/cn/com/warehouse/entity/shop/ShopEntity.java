@@ -1,5 +1,7 @@
 package cn.com.warehouse.entity.shop;
 
+import java.math.BigDecimal;
+
 
 /**
  * 店铺实体类
@@ -12,7 +14,7 @@ public class ShopEntity {
 	// 店铺名称
 	private String shopName;
 	// 加盟费
-	private Integer shopFee;
+	private BigDecimal shopFee;
 	
 	public Long getShopId() {
 		return shopId;
@@ -26,10 +28,10 @@ public class ShopEntity {
 	public void setShopName(String shopName) {
 		this.shopName = shopName;
 	}
-	public Integer getShopFee() {
+	public BigDecimal getShopFee() {
 		return shopFee;
 	}
-	public void setShopFee(Integer shopFee) {
+	public void setShopFee(BigDecimal shopFee) {
 		this.shopFee = shopFee;
 	}
 

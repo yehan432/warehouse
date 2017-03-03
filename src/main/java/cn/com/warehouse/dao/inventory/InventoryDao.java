@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import cn.com.warehouse.entity.inventory.InventoryEntity;
-import cn.com.warehouse.entity.shop.ShopEntity;
 import cn.com.warehouse.util.Paging;
 
 /**
@@ -45,9 +44,8 @@ public class InventoryDao {
 	 * 
 	 */
 	public List<InventoryEntity> getInventoryList(Paging<InventoryEntity> page) {
-		String sql = "SELECT i.*, s.goods_name FROM inventory i "
-					+ "JOIN goods s on i.goods_id = s.goods_id "
-					+ "LIMIT ?, ?";
+		String sql = "SELECT i.*, s.goods_name FROM inventory i " + "JOIN goods s on i.goods_id = s.goods_id "
+				+ "LIMIT ?, ?";
 		List<InventoryEntity> list = (List<InventoryEntity>) jdbcTemplate.query(sql, new Object[] { page.getStartRow(),
 				page.getNumPerPage() }, new BeanPropertyRowMapper<InventoryEntity>(InventoryEntity.class));
 		return list;
@@ -72,7 +70,7 @@ public class InventoryDao {
 		String sql = "select count(*) from inventory where goods_id = ?";
 		return jdbcTemplate.queryForObject(sql, new Object[] { goodsId }, Integer.class);
 	}
-	
+
 	/**
 	 * 修改库存
 	 * 
@@ -81,7 +79,7 @@ public class InventoryDao {
 		String sql = "update inventory set quantity = ? where goods_id = ?";
 		jdbcTemplate.update(sql, new Object[] { inventory.getQuantity(), inventory.getGoodsId() });
 	}
-	
+
 	/**
 	 * 根据ID获取库存信息
 	 * 

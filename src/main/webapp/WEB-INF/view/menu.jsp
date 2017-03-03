@@ -30,8 +30,8 @@
 				<span class="menu-text">库存管理</span>
 			</a> 
 		</li>
-		<li id="">
-			<a href="<%=basePath%>/saleList"> 
+		<li id="statistics">
+			<a href="<%=basePath%>/statisticsList"> 
 				<i class="menu-icon fa fa-bar-chart-o"></i> 
 				<span class="menu-text">销售统计 </span>
 			</a> 
