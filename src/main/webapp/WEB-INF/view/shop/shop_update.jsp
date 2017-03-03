@@ -64,7 +64,7 @@
 							店铺管理
 							<small> 
 							<i class="ace-icon fa fa-angle-double-right"></i>
-									添加
+									修改
 							</small>
 						</h1>
 					</div>

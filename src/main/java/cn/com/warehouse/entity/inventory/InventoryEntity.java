@@ -7,7 +7,9 @@ package cn.com.warehouse.entity.inventory;
 public class InventoryEntity {
 
 	// 货物ID
-	private Long goodsId;;
+	private Long goodsId;
+	// 货物名称
+	private String goodsName;
 	// 库存量
 	private Integer quantity;
 
@@ -25,6 +27,14 @@ public class InventoryEntity {
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
+	}
+
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
 	}
 
 }

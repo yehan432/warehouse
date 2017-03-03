@@ -17,7 +17,7 @@ public class TradeService {
 
 	@Resource
 	private TradeDao tradeDao;
-	
+
 	/**
 	 * 分页查询交易列表
 	 * 
@@ -45,6 +45,14 @@ public class TradeService {
 	 */
 	public void receive(TradeEntity trade) {
 		tradeDao.receive(trade);
+	}
+
+	/**
+	 * 新增入库交易
+	 * 
+	 */
+	public void warehousing(long goodsId, int amount) {
+		tradeDao.warehousing(goodsId, amount);
 	}
 
 }

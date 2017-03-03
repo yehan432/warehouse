@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.com.warehouse.entity.trade.TradeEntity;
+import cn.com.warehouse.service.inventory.InventoryService;
 import cn.com.warehouse.service.shop.ShopService;
 import cn.com.warehouse.service.trade.TradeService;
 
@@ -24,6 +25,8 @@ public class TradeController {
 	private TradeService tradeService;
 	@Resource
 	private ShopService shopService;
+	@Resource
+	private InventoryService inventoryService;
 
 	/**
 	 * 发货
@@ -35,6 +38,7 @@ public class TradeController {
 		tradeService.send(trade);
 		shopService.updateFeeById(trade.getTarget(),
 				trade.getPrice().negate().multiply(new BigDecimal(trade.getAmount())));
+		inventoryService.extract(trade.getGoodsId(), trade.getAmount());
 		return "redirect:/shopDetail?shopId=" + trade.getTarget();
 	}
 

@@ -39,6 +39,15 @@ public class TradeDao {
 		String sql = "insert into trade(price, amount, trade_time, target, type) values(?, 1, NOW(), ?, 0)";
 		jdbcTemplate.update(sql, new Object[] { trade.getPrice(), trade.getTarget() });
 	}
+	
+	/**
+	 * 新增入库交易
+	 * 
+	 */
+	public void warehousing(long goodsId, int amount) {
+		String sql = "insert into trade(goods_id, amount, trade_time, type) values(?, ?, NOW(), 2)";
+		jdbcTemplate.update(sql, new Object[] { goodsId, amount });
+	}
 
 	/**
 	 * 根据商户查询交易记录

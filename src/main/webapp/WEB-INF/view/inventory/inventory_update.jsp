@@ -53,7 +53,7 @@
 							<i class="ace-icon fa fa-home home-icon"></i>
 							<a href="<%=basePath%>/">主页</a>
 						</li>
-						<li class="active">货物管理</li>
+						<li class="active">库存管理</li>
 					</ul>
 					<!-- .breadcrumb -->
 				</div>
@@ -61,49 +61,22 @@
 				<div class="page-content">
 					<div class="page-header">
 						<h1>
-							货物管理
+							库存管理
 							<small> 
 							<i class="ace-icon fa fa-angle-double-right"></i>
 									修改
 							</small>
 						</h1>
 					</div>
-					<!-- 编辑货物  -->
+					<!-- 编辑库存  -->
 					<div class="row">
 						<div class="col-xs-12">
-							<form id="updateForm" class="form-horizontal" role="form" action="<%=path%>/updateGoods" method="post">
-								<input type="hidden" id="goodsId" name="goodsId" value="${goods.goodsId}"/>
+							<form id="updateForm" class="form-horizontal" role="form" action="<%=path%>/updateInventory" method="post">
+								<input type="hidden" id="goodsId" name="goodsId" value="${inventory.goodsId}"/>
 								<div class="form-group">
-									<label class="col-sm-3 control-label no-padding-right" for="goodsName"> 货物名称</label>
+									<label class="col-sm-3 control-label no-padding-right" for="quantity"> 库存量</label>
 									<div class="col-sm-9">
-										<input type="text" id="goodsName" class="col-xs-10 col-sm-4" name="goodsName" value="${goods.goodsName}"/>
-									</div>
-								</div>
-		
-								<div class="space-4"></div>
-								
-								<div class="form-group">
-									<label class="col-sm-3 control-label no-padding-right" for="brand"> 货物品牌 </label>
-									<div class="col-sm-9">
-										<input type="text" id="brand" class="col-xs-10 col-sm-4" name="brand" value="${goods.brand}"/>
-									</div>
-								</div>
-								
-								<div class="space-4"></div>
-								
-								<div class="form-group">
-									<label class="col-sm-3 control-label no-padding-right" for="specification"> 产品规格</label>
-									<div class="col-sm-9">
-										<input type="text" id="specification" class="col-xs-10 col-sm-4" name="specification" value="${goods.specification}"/>
-									</div>
-								</div>
-								
-								<div class="space-4"></div>
-								
-								<div class="form-group">
-									<label class="col-sm-3 control-label no-padding-right" for="remark"> 备注 </label>
-									<div class="col-sm-9">
-										<input type="text" id="remark" class="col-xs-10 col-sm-4" name="remark" value="${goods.remark}"/>
+										<input type="text" id="quantity" class="col-xs-10 col-sm-4" name="quantity" value="${inventory.quantity}"/>
 									</div>
 								</div>
 		
@@ -119,13 +92,13 @@
 							</form>
 						</div>
 					</div>
-					<!-- 编辑货物 -->
+					<!-- 编辑库存 -->
 				</div>
 			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
-		$("#goods").addClass("active");
+		$("#inventory").addClass("active");
 		// 点击提交
 		$("#submitBtn").click(function() {
 			$("#updateForm").submit();
@@ -137,20 +110,15 @@
 			errorClass : 'help-block',
 			focusInvalid : false,
 			rules : {
-				goodsName : {
+				quantity : {
 					required : true,
-					remote:{
-			               type:"post",
-			               url:"<%=path%>/checkGoodsName",           
-			               data:{ goodsId  : function() { return $("#goodsId").val(); },
-			            	      goodsName: function() { return $("#goodsName").val(); }} 
-					}
+					digits : true
 				}
 			},
 			messages : {
-				goodsName : {
-					required : "请输入货物名称",
-					remote: "该名称已存在"
+				quantity : {
+					required : "请输入库存量",
+					digits : "请输入整数"
 				}
 			},
 
