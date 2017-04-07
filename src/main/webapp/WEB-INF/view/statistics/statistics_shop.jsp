@@ -20,6 +20,7 @@
 <!-- ace settings handler -->
 <script src="js/jquery.min.js"></script>
 <script src="style/assets/js/bootstrap.min.js"></script>
+<script src="style/assets/js/jquery.validate.min.js"></script>
 <script src="style/assets/js/ace-elements.min.js"></script>
 <script src="style/assets/js/ace.min.js"></script>
 <script src="style/assets/js/ace-extra.min.js"></script>
@@ -54,7 +55,7 @@
 							<i class="ace-icon fa fa-home home-icon"></i>
 							<a href="<%=basePath%>/">主页</a>
 						</li>
-						<li class="active">货物管理</li>
+						<li class="active">销售统计</li>
 					</ul>
 					<!-- .breadcrumb -->
 				</div>
@@ -62,50 +63,48 @@
 				<div class="page-content">
 					<div class="page-header">
 						<h1>
-							货物管理
+							销售统计
 							<small> 
 							<i class="ace-icon fa fa-angle-double-right"></i>
-									查看
+									店铺统计
 							</small>
 						</h1>
 					</div>
-					<!-- 货物管理列表 -->
-					<form id="queryForm" class="form-inline checkForm" action="<%=path%>/goodsList" method="get">
+					<!-- 销售统计 -->
+					<form id="queryForm" class="form-inline checkForm" action="<%=path%>/shopStatisticsList" method="get">
 						<input type="hidden" id="currentPage" name="currentPage" value="${page.currentPage}">
+						<label style="margin-left:20px;">查询区间: </label>
+						<div style="display:inline-block;" class="form-group">
+							<select name="type" style="height:34px;width:163px;">
+								<option value="0" <c:if test="${condition.type == 0}">selected</c:if>>全部</option>
+								<option value="1" <c:if test="${condition.type == 1}">selected</c:if>>本年</option>
+								<option value="2" <c:if test="${condition.type == 2}">selected</c:if>>本月</option>
+							</select> 
+						</div>
+						<button type="submit" id="btn" class="btn btn-sm btn-primary" style="margin-left:20px;margin-top:-3px;">查询</button>
 					</form>
-					<a href="<%=path%>/createGoods" class="btn btn-sm btn-success" style="margin-bottom: 15px; float: right;">添加货物</a>
+					<br/>
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="table-responsive">
 								<table id="sample-table-2" class="table table-striped table-bordered table-hover">
 									<thead>
 										<tr>
-											<th>货物名称</th>
-											<th>货物品牌</th>
-											<th>产品规格</th>
-											<th>备注</th>
-											<th></th>
+											<th>店铺名称</th>
+											<th>合计加盟费金额</th>
+											<th>合计发货数</th>
+											<th>合计发货金额</th>
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach items="${page.list}" var="goods">
+										<c:forEach items="${page.list}" var="statistics">
 											<tr>
-												<td>${goods.goodsName}</td>
-												<td>${goods.brand}</td>
-												<td>${goods.specification}</td>
-												<td>${goods.remark}</td>
-												<td>
-													<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-														<a class="blue" href="goodsDetail?goodsId=${goods.goodsId}" title="查看">
-															<i class="ace-icon fa fa-search-plus bigger-130"></i>
-														</a>
-														<a class="green" href="updateGoods?goodsId=${goods.goodsId}" title="编辑">
-															<i class="ace-icon fa fa-pencil bigger-130"></i>
-														</a>
-														<a class="red" href="#" title="删除" onclick="deleteGoods('${goods.goodsId}');">
-															<i class="ace-icon fa fa-trash-o bigger-130"></i>
-														</a>
-													</div>
+												<td>${statistics.shopName}</td>
+												<td style="color: orange;">
+													<i class="fa fa-jpy"></i> ${statistics.receiveFeeTotal}
+												<td>${statistics.sendTotal}</td>
+												<td style="color: orange;">
+													<i class="fa fa-jpy"></i> ${statistics.sendFeeTotal}
 												</td>
 											</tr>
 										</c:forEach>
@@ -117,22 +116,14 @@
 							</div>
 						</div>
 					</div>
-					<!-- 货物管理列表 -->
+					<!-- 销售统计 -->
 				</div>
 			</div>
 		</div>
 	</div>
+	
 	<script type="text/javascript">
-		$("#goods").addClass("active");
-		// 删除
-		function deleteGoods(id) {
-			bootbox.setDefaults("locale","zh_CN");  
-			bootbox.confirm("确认删除？", function(re) {
-				if (re) {
-					location.href = "deleteGoods?goodsId=" + id;
-				}
-			});
-		}
+		$("#statistics").addClass("active");
 	</script>
 </body>
 </html>

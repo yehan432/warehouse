@@ -66,32 +66,47 @@
 							销售统计
 							<small> 
 							<i class="ace-icon fa fa-angle-double-right"></i>
-									查看
+									人员统计
 							</small>
 						</h1>
 					</div>
 					<!-- 销售统计 -->
+					<form id="queryForm" class="form-inline checkForm" action="<%=path%>/workerStatisticsList" method="get">
+						<input type="hidden" id="currentPage" name="currentPage" value="${page.currentPage}">
+						<label style="margin-left:20px;">查询区间: </label>
+						<div style="display:inline-block;" class="form-group">
+							<select name="type" style="height:34px;width:163px;">
+								<option value="0" <c:if test="${condition.type == 0}">selected</c:if>>全部</option>
+								<option value="1" <c:if test="${condition.type == 1}">selected</c:if>>本年</option>
+								<option value="2" <c:if test="${condition.type == 2}">selected</c:if>>本月</option>
+							</select> 
+						</div>
+						<button type="submit" id="btn" class="btn btn-sm btn-primary" style="margin-left:20px;margin-top:-3px;">查询</button>
+					</form>
+					<br/>
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="table-responsive">
 								<table id="sample-table-2" class="table table-striped table-bordered table-hover">
 									<thead>
 										<tr>
-											<th>店铺名称</th>
-											<th>合计加盟费金额</th>
-											<th>合计发货数</th>
-											<th>合计发货金额</th>
+											<th>工号</th>
+											<th>姓名</th>
+											<th>派遣时间合计</th>
+											<th>收款合计</th>
+											<th>付款合计</th>
 										</tr>
 									</thead>
 									<tbody>
 										<c:forEach items="${page.list}" var="statistics">
 											<tr>
-												<td>${statistics.shopName}</td>
+												<td>${statistics.workerNumber}</td>
+												<td>${statistics.workerName}</td>
+												<td>${statistics.dayTotal}天</td>
 												<td style="color: orange;">
-													<i class="fa fa-jpy"></i> ${statistics.receiveFeeTotal}
-												<td>${statistics.sendTotal}</td>
+													<i class="fa fa-jpy"></i> ${statistics.receiveTotal}
 												<td style="color: orange;">
-													<i class="fa fa-jpy"></i> ${statistics.sendFeeTotal}
+													<i class="fa fa-jpy"></i> ${statistics.sendTotal}
 												</td>
 											</tr>
 										</c:forEach>

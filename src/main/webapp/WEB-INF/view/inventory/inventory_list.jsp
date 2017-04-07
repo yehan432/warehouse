@@ -71,7 +71,7 @@
 						</h1>
 					</div>
 					<!-- 店铺管理列表 -->
-					<form id="queryForm" class="form-inline checkForm" action="<%=path%>/shopList" method="get">
+					<form id="queryForm" class="form-inline checkForm" action="<%=path%>/inventoryList" method="get">
 						<input type="hidden" id="currentPage" name="currentPage" value="${page.currentPage}">
 					</form>
 					<a href="#my-modal" class="btn btn-sm btn-success" data-toggle="modal" style="margin-bottom: 15px; float: right;">货物入库</a>

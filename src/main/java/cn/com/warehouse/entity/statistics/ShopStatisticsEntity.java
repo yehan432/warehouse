@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * 统计实体类
  *
  */
-public class StatisticsEntity {
+public class ShopStatisticsEntity {
 
 	// ID
 	private Long shopId;

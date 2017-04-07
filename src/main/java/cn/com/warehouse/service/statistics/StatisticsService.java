@@ -5,7 +5,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import cn.com.warehouse.dao.statistics.StatisticsDao;
-import cn.com.warehouse.entity.statistics.StatisticsEntity;
+import cn.com.warehouse.entity.statistics.ShopStatisticsEntity;
+import cn.com.warehouse.entity.statistics.WorkerStatisticsEntity;
 import cn.com.warehouse.util.Paging;
 
 /**
@@ -23,12 +24,25 @@ public class StatisticsService {
 	 * 
 	 * @return Page
 	 */
-	public Paging<StatisticsEntity> getStatisticsList(Paging<StatisticsEntity> page) {
-		page.setList(statisticsDao.getStatisticsList(page));
-		int count = statisticsDao.getStatisticsListCount();
+	public Paging<ShopStatisticsEntity> getShopStatisticsList(Paging<ShopStatisticsEntity> page, Integer type) {
+		page.setList(statisticsDao.getShopStatisticsList(page, type));
+		int count = statisticsDao.getShopStatisticsListCount(type);
 		page.setTotalRow(count);
 		page.setTotalPage((count + page.getNumPerPage() - 1) / page.getNumPerPage());
 		return page;
 	}
-	
+
+	/**
+	 * 分页查询人员统计列表
+	 * 
+	 * @return Page
+	 */
+	public Paging<WorkerStatisticsEntity> getWorkerStatisticsList(Paging<WorkerStatisticsEntity> page, Integer type) {
+		page.setList(statisticsDao.getWorkerStatisticsList(page, type));
+		int count = statisticsDao.getWorkerStatisticsListCount(type);
+		page.setTotalRow(count);
+		page.setTotalPage((count + page.getNumPerPage() - 1) / page.getNumPerPage());
+		return page;
+	}
+
 }
