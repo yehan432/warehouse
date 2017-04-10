@@ -101,13 +101,13 @@
 													<div>
 														<a class="blue" href="dispatchList?workerNumber=${worker.workerNumber}" title="查看">
 															<i class="ace-icon fa fa-search-plus bigger-130"></i>
-														</a>
+														</a>&nbsp;
 														<a id="${worker.workerNumber}" class="orange" href="#dispatch-modal" data-toggle="modal" title="派遣">
 															<i class="ace-icon fa fa-hand-o-right bigger-130"></i>
-														</a>
+														</a>&nbsp;
 														<a class="green" href="updateWorker?workerNumber=${worker.workerNumber}" title="编辑">
 															<i class="ace-icon fa fa-pencil bigger-130"></i>
-														</a>
+														</a>&nbsp;
 														<a class="red" href="#" title="删除" onclick="deleteWorker('${worker.workerNumber}');">
 															<i class="ace-icon fa fa-trash-o bigger-130"></i>
 														</a>

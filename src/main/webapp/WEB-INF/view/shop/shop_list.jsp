@@ -98,10 +98,10 @@
 													<div>
 														<a class="blue" href="shopDetail?shopId=${shop.shopId}" title="详情">
 															<i class="ace-icon fa fa-search-plus bigger-130"></i>
-														</a>
+														</a>&nbsp;
 														<a class="green" href="updateShop?shopId=${shop.shopId}" title="编辑">
 															<i class="ace-icon fa fa-pencil bigger-130"></i>
-														</a>
+														</a>&nbsp;
 														<a class="red" href="#" title="删除" onclick="deleteShop('${shop.shopId}');">
 															<i class="ace-icon fa fa-trash-o bigger-130"></i>
 														</a>

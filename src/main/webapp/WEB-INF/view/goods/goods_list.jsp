@@ -96,12 +96,12 @@
 												<td>${goods.remark}</td>
 												<td>
 													<div>
-														<a class="blue" href="goodsDetail?goodsId=${goods.goodsId}" title="查看">
-															<i class="ace-icon fa fa-search-plus bigger-130"></i>
-														</a>
+<%-- 														<a class="blue" href="goodsDetail?goodsId=${goods.goodsId}" title="查看"> --%>
+<!-- 															<i class="ace-icon fa fa-search-plus bigger-130"></i> -->
+<!-- 														</a> -->
 														<a class="green" href="updateGoods?goodsId=${goods.goodsId}" title="编辑">
 															<i class="ace-icon fa fa-pencil bigger-130"></i>
-														</a>
+														</a>&nbsp;
 														<a class="red" href="#" title="删除" onclick="deleteGoods('${goods.goodsId}');">
 															<i class="ace-icon fa fa-trash-o bigger-130"></i>
 														</a>
