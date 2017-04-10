@@ -95,7 +95,7 @@
 												<td>${goods.specification}</td>
 												<td>${goods.remark}</td>
 												<td>
-													<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+													<div>
 														<a class="blue" href="goodsDetail?goodsId=${goods.goodsId}" title="查看">
 															<i class="ace-icon fa fa-search-plus bigger-130"></i>
 														</a>

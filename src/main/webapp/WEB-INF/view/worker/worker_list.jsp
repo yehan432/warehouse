@@ -98,7 +98,7 @@
 												<td>${worker.phone}</td>
 												<td>${worker.remark}</td>
 												<td>
-													<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+													<div>
 														<a class="blue" href="dispatchList?workerNumber=${worker.workerNumber}" title="查看">
 															<i class="ace-icon fa fa-search-plus bigger-130"></i>
 														</a>

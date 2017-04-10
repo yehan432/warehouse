@@ -95,7 +95,7 @@
 													<i class="fa fa-jpy"></i> ${shop.shopFee}
 												</td>
 												<td>
-													<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+													<div>
 														<a class="blue" href="shopDetail?shopId=${shop.shopId}" title="详情">
 															<i class="ace-icon fa fa-search-plus bigger-130"></i>
 														</a>

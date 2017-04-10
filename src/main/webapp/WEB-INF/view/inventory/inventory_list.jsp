@@ -92,7 +92,7 @@
 												<td>${inventory.goodsName}</td>
 												<td>${inventory.quantity}</td>
 												<td>
-													<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+													<div>
 														<a class="green" href="updateInventory?goodsId=${inventory.goodsId}" title="编辑">
 															<i class="ace-icon fa fa-pencil bigger-130"></i>
 														</a>
