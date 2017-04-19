@@ -24,9 +24,9 @@ public class StatisticsService {
 	 * 
 	 * @return Page
 	 */
-	public Paging<ShopStatisticsEntity> getShopStatisticsList(Paging<ShopStatisticsEntity> page, Integer type) {
-		page.setList(statisticsDao.getShopStatisticsList(page, type));
-		int count = statisticsDao.getShopStatisticsListCount(type);
+	public Paging<ShopStatisticsEntity> getShopStatisticsList(Paging<ShopStatisticsEntity> page, Integer type, String startTime, String endTime) {
+		page.setList(statisticsDao.getShopStatisticsList(page, type, startTime, endTime));
+		int count = statisticsDao.getShopStatisticsListCount(type, startTime, endTime);
 		page.setTotalRow(count);
 		page.setTotalPage((count + page.getNumPerPage() - 1) / page.getNumPerPage());
 		return page;
@@ -37,9 +37,9 @@ public class StatisticsService {
 	 * 
 	 * @return Page
 	 */
-	public Paging<WorkerStatisticsEntity> getWorkerStatisticsList(Paging<WorkerStatisticsEntity> page, Integer type) {
-		page.setList(statisticsDao.getWorkerStatisticsList(page, type));
-		int count = statisticsDao.getWorkerStatisticsListCount(type);
+	public Paging<WorkerStatisticsEntity> getWorkerStatisticsList(Paging<WorkerStatisticsEntity> page, Integer type, String startTime, String endTime) {
+		page.setList(statisticsDao.getWorkerStatisticsList(page, type, startTime, endTime));
+		int count = statisticsDao.getWorkerStatisticsListCount(type, startTime, endTime);
 		page.setTotalRow(count);
 		page.setTotalPage((count + page.getNumPerPage() - 1) / page.getNumPerPage());
 		return page;

@@ -28,9 +28,9 @@ public class StatisticsController {
 	 * @return String
 	 */
 	@RequestMapping(value = "/shopStatisticsList", method = RequestMethod.GET)
-	public String shopStatisticsList(Model model, Paging<ShopStatisticsEntity> page, Integer type) {
+	public String shopStatisticsList(Model model, Paging<ShopStatisticsEntity> page, Integer type, String startTime, String endTime) {
 	
-		model.addAttribute("page", statisticsService.getShopStatisticsList(page, type));
+		model.addAttribute("page", statisticsService.getShopStatisticsList(page, type, startTime, endTime));
 		return "statistics/statistics_shop";
 	}
 	
@@ -40,8 +40,8 @@ public class StatisticsController {
 	 * @return String
 	 */
 	@RequestMapping(value = "/workerStatisticsList", method = RequestMethod.GET)
-	public String workerStatisticsList(Model model, Paging<WorkerStatisticsEntity> page, Integer type) {
-		model.addAttribute("page", statisticsService.getWorkerStatisticsList(page, type));
+	public String workerStatisticsList(Model model, Paging<WorkerStatisticsEntity> page, Integer type, String startTime, String endTime) {
+		model.addAttribute("page", statisticsService.getWorkerStatisticsList(page, type, startTime, endTime));
 		return "statistics/statistics_worker";
 	}
 

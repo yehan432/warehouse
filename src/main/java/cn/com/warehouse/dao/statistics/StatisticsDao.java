@@ -26,7 +26,7 @@ public class StatisticsDao {
 	 * 店铺合计
 	 * 
 	 */
-	public List<ShopStatisticsEntity> getShopStatisticsList(Paging<ShopStatisticsEntity> page, Integer type) {
+	public List<ShopStatisticsEntity> getShopStatisticsList(Paging<ShopStatisticsEntity> page, Integer type, String startTime, String endTime) {
 		String str = "";
 		switch (type) {
 		case 1:
@@ -34,6 +34,9 @@ public class StatisticsDao {
 			break;
 		case 2:
 			str = "and date_format(trade_time,'%Y-%m')=date_format(now(),'%Y-%m') ";
+			break;
+		case 3:
+			str = "and date_format(trade_time,'%Y-%m-%d') >= '" + startTime + "' and date_format(trade_time,'%Y-%m-%d') <= '" + endTime + "'";
 			break;
 		default:
 			str = "";
@@ -50,8 +53,9 @@ public class StatisticsDao {
 					 "GROUP BY s.shop_id,s.shop_name " +
 					 "LIMIT ?,?";
 		return (List<ShopStatisticsEntity>) jdbcTemplate.query(sql,
-				new Object[] { page.getStartRow(), page.getNumPerPage() }, new BeanPropertyRowMapper<ShopStatisticsEntity>(
-						ShopStatisticsEntity.class));
+				new Object[] { page.getStartRow(), page.getNumPerPage() },
+				new BeanPropertyRowMapper<ShopStatisticsEntity>(ShopStatisticsEntity.class));
+		
 	}
 
 	/**
@@ -59,7 +63,7 @@ public class StatisticsDao {
 	 * 
 	 * @return Page
 	 */
-	public Integer getShopStatisticsListCount(Integer type) {
+	public Integer getShopStatisticsListCount(Integer type, String startTime, String endTime) {
 		String str = "";
 		switch (type) {
 		case 1:
@@ -67,6 +71,9 @@ public class StatisticsDao {
 			break;
 		case 2:
 			str = "and date_format(trade_time,'%Y-%m')=date_format(now(),'%Y-%m') ";
+			break;
+		case 3:
+			str = "and date_format(trade_time,'%Y-%m-%d') >= '" + startTime + "' and date_format(trade_time,'%Y-%m-%d') <= '" + endTime + "'";
 			break;
 		default:
 			str = "";
@@ -80,21 +87,24 @@ public class StatisticsDao {
 	 * 人员合计
 	 * 
 	 */
-	public List<WorkerStatisticsEntity> getWorkerStatisticsList(Paging<WorkerStatisticsEntity> page, Integer type) {
+	public List<WorkerStatisticsEntity> getWorkerStatisticsList(Paging<WorkerStatisticsEntity> page, Integer type, String startTime, String endTime) {
 		String str = "";
 		switch (type) {
 		case 1:
 			str = "and YEAR(dispatch_date)=YEAR(NOW())";
 			break;
 		case 2:
-			str = "and date_format(dispatch_date,'%Y-%m')=date_format(now(),'%Y-%m') ";
+			str = "and date_format(dispatch_date,'%Y-%m')=date_format(now(),'%Y-%m')";
+			break;
+		case 3:
+			str = "and date_format(dispatch_date,'%Y-%m-%d') >= '" + startTime + "' and date_format(dispatch_date,'%Y-%m-%d') <= '" + endTime + "'";
 			break;
 		default:
 			str = "";
 			break;
 		}
-		String sql = "select d.worker_number,w.worker_name,sum(d.dispatch_time) dayTotal,sum(d.receive_money) receiveTotal,sum(d.pay_money) sendTotal from dispatch d,worker w where d.worker_number = w.worker_number "
-				+ str + " LIMIT ?,?";
+		String sql = "select w.worker_number,w.worker_name,sum(d.dispatch_time) dayTotal,sum(d.receive_money) receiveTotal,sum(d.pay_money) sendTotal from dispatch d,worker w where d.worker_number = w.worker_number "
+				+ str + " GROUP BY w.worker_number,w.worker_name LIMIT ?,?";
 		return (List<WorkerStatisticsEntity>) jdbcTemplate.query(sql,
 				new Object[] { page.getStartRow(), page.getNumPerPage() },
 				new BeanPropertyRowMapper<WorkerStatisticsEntity>(WorkerStatisticsEntity.class));
@@ -105,7 +115,7 @@ public class StatisticsDao {
 	 * 
 	 * @return Page
 	 */
-	public Integer getWorkerStatisticsListCount(Integer type) {
+	public Integer getWorkerStatisticsListCount(Integer type, String startTime, String endTime) {
 		String str = "";
 		switch (type) {
 		case 1:
@@ -113,6 +123,9 @@ public class StatisticsDao {
 			break;
 		case 2:
 			str = "and date_format(dispatch_date,'%Y-%m')=date_format(now(),'%Y-%m') ";
+			break;
+		case 3:
+			str = "and date_format(dispatch_date,'%Y-%m-%d') >= '" + startTime + "' and date_format(dispatch_date,'%Y-%m-%d') <= '" + endTime + "'";
 			break;
 		default:
 			str = "";

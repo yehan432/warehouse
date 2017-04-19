@@ -10,14 +10,14 @@
 <meta charset="utf-8" />
 <title>销售统计</title>
 <!-- basic styles -->
-<link rel="stylesheet" type="text/css" href="style/assets/css/bootstrap.min.css"  />
+<link rel="stylesheet" type="text/css" href="style/assets/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="style/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
 <!-- ace styles -->
 <link rel="stylesheet" href="style/assets/css/fonts.googleapis.com.css" />
 <link rel="stylesheet" type="text/css" href="style/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style"/>
-<link rel="stylesheet" type="text/css" href="style/assets/css/ace-rtl.min.css"  />
-<link rel="stylesheet" type="text/css" href="style/assets/css/ace-skins.min.css"  />
-<link rel="stylesheet" type="text/css" href="style/assets/css/bootstrap-datepicker3.min.css"  />
+<link rel="stylesheet" type="text/css" href="style/assets/css/ace-rtl.min.css" />
+<link rel="stylesheet" type="text/css" href="style/assets/css/ace-skins.min.css" />
+<link rel="stylesheet" type="text/css" href="style/assets/css/bootstrap-datepicker3.min.css" />
 <!-- ace settings handler -->
 <script src="js/jquery.min.js"></script>
 <script src="style/assets/js/bootstrap.min.js"></script>

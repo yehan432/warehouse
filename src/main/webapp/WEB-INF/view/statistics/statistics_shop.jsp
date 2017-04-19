@@ -10,13 +10,14 @@
 <meta charset="utf-8" />
 <title>销售统计</title>
 <!-- basic styles -->
-<link rel="stylesheet" type="text/css" href="style/assets/css/bootstrap.min.css"  />
+<link rel="stylesheet" type="text/css" href="style/assets/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="style/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
 <!-- ace styles -->
-<link rel="stylesheet" href="style/assets/css/fonts.googleapis.com.css" />
+<link rel="stylesheet" href="style/assets/css/fonts.googleapis.com.css"/>
 <link rel="stylesheet" type="text/css" href="style/assets/css/ace.min.css "  class="ace-main-stylesheet" id="main-ace-style"/>
-<link rel="stylesheet" type="text/css" href="style/assets/css/ace-rtl.min.css"  />
-<link rel="stylesheet" type="text/css" href="style/assets/css/ace-skins.min.css"  />
+<link rel="stylesheet" type="text/css" href="style/assets/css/ace-rtl.min.css" />
+<link rel="stylesheet" type="text/css" href="style/assets/css/ace-skins.min.css" />
+<link rel="stylesheet" type="text/css" href="style/assets/css/bootstrap-datepicker3.min.css" />
 <!-- ace settings handler -->
 <script src="js/jquery.min.js"></script>
 <script src="style/assets/js/bootstrap.min.js"></script>
@@ -25,6 +26,8 @@
 <script src="style/assets/js/ace.min.js"></script>
 <script src="style/assets/js/ace-extra.min.js"></script>
 <script src="style/assets/js/bootbox.js"></script>
+<script src="style/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+<script src="style/assets/js/date-time/bootstrap-datepicker.zh-CN.min.js"></script>
 </head>
 
 <body class="no-skin">
@@ -75,12 +78,33 @@
 						<input type="hidden" id="currentPage" name="currentPage" value="${page.currentPage}">
 						<label style="margin-left:20px;">查询区间: </label>
 						<div style="display:inline-block;" class="form-group">
-							<select name="type" style="height:34px;width:163px;">
+							<select id="selected" name="type" style="height:34px;width:163px;">
 								<option value="0" <c:if test="${condition.type == 0}">selected</c:if>>全部</option>
 								<option value="1" <c:if test="${condition.type == 1}">selected</c:if>>本年</option>
 								<option value="2" <c:if test="${condition.type == 2}">selected</c:if>>本月</option>
+								<option value="3" <c:if test="${condition.type == 3}">selected</c:if>>自定义</option>
 							</select> 
 						</div>
+						<div id="datetime" style="display:inline-block;">
+							<label style="margin-left:20px;">查询区间: </label>
+							<div class="form-group" style="width: 163px;">
+								<div class="input-group">
+									<input class="form-control datepicker" type="text" id="startTime" name="startTime" style="width:100%;" maxlength="10" />
+									<span class="input-group-addon">
+										<i class="fa fa-calendar bigger-110"></i>
+									</span>
+								</div>
+		 					</div>
+							—
+							<div class="form-group" style="width: 163px;">
+								<div class="input-group">
+									<input class="form-control datepicker" type="text" id="endTime" name="endTime" style="width:100%;" maxlength="10" />
+									<span class="input-group-addon">
+										<i class="fa fa-calendar bigger-110"></i>
+									</span>
+								</div>
+		 					</div>
+	 					</div>
 						<button type="submit" id="btn" class="btn btn-sm btn-primary" style="margin-left:20px;margin-top:-3px;">查询</button>
 					</form>
 					<br/>
@@ -124,6 +148,27 @@
 	
 	<script type="text/javascript">
 		$("#statistics").addClass("active");
+		$("#datetime").hide();
+		$("#selected").change(function(){
+			var type = $("#selected").val();
+			if (type == 3) {
+				$("#datetime").show();
+			}else {
+				$("#datetime").hide();
+			}
+		});
+		
+		// 日期插件
+		$(function () {
+	        $(".datepicker").datepicker({
+	            language: "zh-CN",
+	            autoclose: true,//选中之后自动隐藏日期选择框
+	            todayHighlight: true,
+	            todayBtn: true,//今日按钮
+	            clearBtn: true,//今日按钮
+	            format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+	        });
+	    });
 	</script>
 </body>
 </html>
